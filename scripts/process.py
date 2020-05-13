@@ -5,7 +5,7 @@ import sys
 file_name_1 = sys.argv[1]
 file_name_2 = sys.argv[2]
 
-def plot(file_name, figure_num, calibration_num):
+def plot(file_name, figure_num, calibration_num, x_axis_num):
     x_calibrations = []
     y_calibrations = []
     z_calibrations = []
@@ -19,19 +19,19 @@ def plot(file_name, figure_num, calibration_num):
             y_calibrations.append(y)
             z_calibrations.append(z)
     if calibration_num == 1:
-        plt.scatter([0 for i in range(len(x_calibrations))], x_calibrations, label=file_name+"_x")
+        plt.scatter([x_axis_num for i in range(len(x_calibrations))], x_calibrations, label=file_name+"_x")
     elif calibration_num == 2:
-        plt.scatter([1 for i in range(len(x_calibrations))], y_calibrations, label=file_name+"_y")
+        plt.scatter([x_axis_num for i in range(len(x_calibrations))], y_calibrations, label=file_name+"_y")
     else:
-        plt.scatter([2 for i in range(len(x_calibrations))], z_calibrations, label=file_name+"_z")
+        plt.scatter([x_axis_num for i in range(len(x_calibrations))], z_calibrations, label=file_name+"_z")
 
 
-plot(file_name_1, 1, 1)
-plot(file_name_2, 2, 1)
-plot(file_name_1, 1, 2)
-plot(file_name_2, 2, 2)
-plot(file_name_1, 1, 3)
-plot(file_name_2, 2, 3)
+plot(file_name_1, 1, 1, 0)
+plot(file_name_2, 2, 1, 1)
+plot(file_name_1, 1, 2, 2)
+plot(file_name_2, 2, 2, 3)
+plot(file_name_1, 1, 3, 4)
+plot(file_name_2, 2, 3, 5)
 plt.xlabel("calibrations")
 plt.ylabel("calibration values")
 plt.legend(loc="upper right")

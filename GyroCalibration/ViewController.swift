@@ -13,9 +13,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        sensors.startGyroscope()
-        sensors.startDeviceMotion()
-        getRawGyro()
+        sensors.startGyroStreaming()
+//        sensors.startGyroscope()
+//        sensors.startDeviceMotion()
+//        getRawGyro()
     }
     
     func getRawGyro() {

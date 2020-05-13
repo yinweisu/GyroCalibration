@@ -10,13 +10,13 @@ import Foundation
 import CoreMotion
 import os.log
 
-struct Sensors {
+class Sensors {
     let motionMgr = CMMotionManager()
     let updateInterval = 1.0 / 20.0
     var prevAttitude: CMAttitude?
+    var prevTime: Date?
     
     init() {
-        startDeviceMotion()
     }
     
     // Raw data
@@ -96,8 +96,24 @@ struct Sensors {
         return self.motionMgr.accelerometerData?.acceleration
     }
     
+    func startGyroStreaming() {
+        if self.motionMgr.isGyroAvailable {
+            self.motionMgr.gyroUpdateInterval = 1.0 / 100.0
+            self.motionMgr.startGyroUpdates(to: OperationQueue()) { (data, error) in
+                guard let _ = data, error == nil else { return }
+                if self.prevTime == nil {
+                    self.prevTime = Date()
+                } else {
+                    let curTime = Date()
+                    print(Float(curTime.timeIntervalSince(self.prevTime!)).avoidNotation)
+                    self.prevTime = curTime
+                }
+            }
+            print(self.motionMgr.gyroUpdateInterval)
+        }
+    }
     
-    mutating func getChangeInAttitude() -> CMAttitude? {
+    func getChangeInAttitude() -> CMAttitude? {
         guard let prevAttitude = self.prevAttitude, let currentAttitude = self.motionMgr.deviceMotion?.attitude
             else {
                 self.prevAttitude = self.motionMgr.deviceMotion?.attitude
