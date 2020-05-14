@@ -98,7 +98,7 @@ class Sensors {
     
     func startGyroStreaming() {
         if self.motionMgr.isGyroAvailable {
-            self.motionMgr.gyroUpdateInterval = 1.0 / 100.0
+            self.motionMgr.gyroUpdateInterval = 1.0 / 10.0
             self.motionMgr.startGyroUpdates(to: OperationQueue()) { (data, error) in
                 guard let _ = data, error == nil else { return }
                 if self.prevTime == nil {
@@ -109,7 +109,6 @@ class Sensors {
                     self.prevTime = curTime
                 }
             }
-            print(self.motionMgr.gyroUpdateInterval)
         }
     }
     

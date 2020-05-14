@@ -4,7 +4,8 @@ import sys
 import statistics
 import glob
 
-files = glob.glob("iphone*")
+files = ["sample1.txt", "sample2.txt", "sample3.txt"]
+# files = glob.glob("sample*")
 
 def plot(file_name, offset):
     x_calibrations = []
@@ -19,9 +20,12 @@ def plot(file_name, offset):
             x_calibrations.append(x)
             y_calibrations.append(y)
             z_calibrations.append(z)
-    plt.scatter([offset for i in range(len(x_calibrations))], x_calibrations, label=file_name)
-    plt.scatter([offset+4 for i in range(len(y_calibrations))], y_calibrations, label=file_name)
-    plt.scatter([offset+8 for i in range(len(z_calibrations))], z_calibrations, label=file_name)
+    variance = statistics.variance(x_calibrations) * pow(10, 6)
+    plt.scatter(offset, variance, label=file_name+"_x_variance")
+    variance = statistics.variance(y_calibrations) * pow(10, 6)
+    plt.scatter(offset+4, variance, label=file_name+"_y_variance")
+    variance = statistics.variance(z_calibrations) * pow(10, 6)
+    plt.scatter(offset+8, variance, label=file_name+"_z_variance")
 
 counter = 0
 for file in files:
